@@ -4,7 +4,6 @@ import com.stanbond.homerecipeorganizer.DAO.entites.Ingredient;
 import com.stanbond.homerecipeorganizer.DAO.interfaces.DaoIngredient;
 import com.stanbond.homerecipeorganizer.DTO.ingredient.UpdateIngredientDto;
 import com.stanbond.homerecipeorganizer.exceptions.NotFoundException;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

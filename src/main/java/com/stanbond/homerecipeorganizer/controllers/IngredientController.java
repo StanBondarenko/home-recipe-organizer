@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@PreAuthorize("isAuthenticated()")
 @RequestMapping("/ing")
 public class IngredientController {
     private final IngredientService service;
     public IngredientController(IngredientService service){this.service=service;}
     @GetMapping("")
-    public ResponseEntity<List<Ingredient>> get(@RequestParam(name = "name", required = false, defaultValue = "") String name){
+    public ResponseEntity<List<Ingredient>> getAll(@RequestParam(name = "name", required = false, defaultValue = "") String name){
         if(name.isEmpty()){
             return ResponseEntity.ok(service.getAllIngrediets());
         }else {
