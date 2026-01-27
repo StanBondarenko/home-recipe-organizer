@@ -20,7 +20,7 @@ public class RecipeService {
         return dao.getAll().orElseThrow(() -> new NotFoundException("Cannot get all recipes"));
     }
     private List<Recipe> getByName(String name){
-        return  List.of(dao.getByName(name).orElseThrow(()-> new NotFoundException("No recipe with this name")));
+        return  dao.getByName(name).orElseThrow(()-> new NotFoundException("No recipe with this name"));
     }
     private List<Recipe> getById(long id){
         return List.of(dao.getById(id).orElseThrow(()-> new NotFoundException("No recipe with this id")));
@@ -28,8 +28,14 @@ public class RecipeService {
     private  List<Recipe> getByTypeName(String name){
         return dao.getByTypeName(name).orElseThrow(()-> new NotFoundException("No recipe with this type"));
     }
+    private List<Recipe> getByTypeAndName(String type, String name){
+        return dao.getByTypeNameAndName(type,name).orElseThrow(()-> new NotFoundException("No recipe with this type and name"));
+    }
     public List<Recipe> find(String name, long id, String typeName){
-        if(name.isBlank() && id == 0 && !typeName.isBlank()){
+        if(!typeName.isBlank() && !name.isBlank() && id == 0){
+            name = name.trim();
+            return getByTypeAndName(typeName,name);
+        }else if(name.isBlank() && id == 0 && !typeName.isBlank()){
             typeName = typeName.trim();
             return getByTypeName(typeName);
         }else if (name.isBlank() && typeName.isBlank() && id > 0) {

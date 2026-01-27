@@ -37,14 +37,16 @@ public class JdbcRecipeDao implements DaoRecipe {
     }
 
     @Override
-    public Optional<Recipe> getByName(String name) {
+    public Optional<List<Recipe>> getByName(String name) {
+        name = "%"+name+"%";
         String sql = """
                 SELECT rec_id, rec_name, pic_url, type_id
                 FROM recipe
-                WHERE rec_name LIKE ?
+                WHERE rec_name ILIKE ?
                 ORDER BY rec_id;""";
         try{
-            return template.query(sql, mapper, name).stream().findFirst();
+            List<Recipe> result = template.query(sql, mapper, name);
+            return Optional.of(result);
         }catch (CannotGetJdbcConnectionException e){
             throw new DaoException("No connection to base", e);
         }catch (DataIntegrityViolationException e){
@@ -78,6 +80,25 @@ public class JdbcRecipeDao implements DaoRecipe {
                 ORDER BY rec_id;""";
         try {
             List<Recipe> result = template.query(sql,mapper,typeName);
+            return Optional.of(result);
+        }catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("No connection to base", e);
+        }catch (DataIntegrityViolationException e){
+            throw new DaoException("Data problems", e);
+        }
+    }
+
+    @Override
+    public Optional<List<Recipe>> getByTypeNameAndName(String typeName, String name) {
+        name = "%"+name+"%";
+        String sql = """
+                SELECT rec_id, rec_name, pic_url, type_id
+                                FROM recipe
+                                JOIN dish_type USING(type_id)
+                                WHERE type_name LIKE ? AND rec_name ILIKE ?
+                                ORDER BY rec_id;""";
+        try {
+            List<Recipe> result = template.query(sql,mapper,typeName, name);
             return Optional.of(result);
         }catch (CannotGetJdbcConnectionException e){
             throw new DaoException("No connection to base", e);

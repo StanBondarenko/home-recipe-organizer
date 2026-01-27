@@ -1,0 +1,675 @@
+@startuml
+class com.stanbond.homerecipeorganizer.service.UnitService {
+- UnitRepository repo
++ List<Unit> getAllUnits()
++ Unit getByCode(String)
+}
+
+
+class com.stanbond.homerecipeorganizer.security.token.JwtResponse {
+- String token
+}
+
+class com.stanbond.homerecipeorganizer.security.auth.SecurityController {
+- UserService userService
+- AuthenticationManager authenticationManager
+- JwtCore jwtCore
++ ResponseEntity<?> signUp(SignUpRequest)
++ ResponseEntity<?> signIn(SignInRequest)
+}
+
+
+class com.stanbond.homerecipeorganizer.exceptions.DaoException {
+}
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.UserIngredientDao {
+~ List<UserIngredient> getAllByUserId(long)
+~ Optional<UserIngredient> getOne(long,long)
+~ void create(long,CreateUserIngredientDto)
+~ void update(long,long,UpdateUserIngredientDto)
+~ void delete(long,long)
+}
+
+class com.stanbond.homerecipeorganizer.DTO.ingredient.CreateIngredientDto {
+- String name
++ String name()
+}
+
+
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.DaoRecipe {
+~ Optional<List<Recipe>> getAll()
+~ Optional<Recipe> getByName(String)
+~ Optional<Recipe> getById(long)
+~ Optional<List<Recipe>> getByTypeName(String)
+~ Recipe create(CreateRecipeDto)
+~ Recipe update(long,UpdateRecipeDto)
+~ void delete(long)
+}
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcUserIngredientDao {
+- JdbcTemplate template
+- UserIngredientRowMapper mapper
++ List<UserIngredient> getAllByUserId(long)
++ Optional<UserIngredient> getOne(long,long)
++ void create(long,CreateUserIngredientDto)
++ void update(long,long,UpdateUserIngredientDto)
++ void delete(long,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.controllers.IngredientController {
+- IngredientService service
++ ResponseEntity<List<Ingredient>> getAll(String)
++ ResponseEntity<Ingredient> getById(long)
++ ResponseEntity<Ingredient> create(CreateIngredientDto)
++ ResponseEntity<Ingredient> update(int,UpdateIngredientDto)
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.recipeStep.CreateRecipeStepDto {
+- Integer stepNumber
+- String stepText
++ Integer stepNumber()
++ String stepText()
+}
+
+
+interface com.stanbond.homerecipeorganizer.repositores.UnitRepository {
+~ List<Unit> findAll()
+~ Optional<Unit> findByCode(String)
+}
+
+class com.stanbond.homerecipeorganizer.exceptions.NotFoundException {
+}
+class com.stanbond.homerecipeorganizer.app {
++ {static} void main(String[])
+}
+
+class com.stanbond.homerecipeorganizer.security.token.TokenFilter {
+- JwtCore jwtCore
+- UserService userService
+# boolean shouldNotFilter(HttpServletRequest)
+# void doFilterInternal(HttpServletRequest,HttpServletResponse,FilterChain)
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.userIng.UpdateUserIngredientDto {
+- Double amount
+- Long unitId
++ Double amount()
++ Long unitId()
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.recIng.UpdateRecipeIngredientDto {
+- Double amount
+- Integer unitId
++ Double amount()
++ Integer unitId()
+}
+
+
+class com.stanbond.homerecipeorganizer.controllers.RecipeController {
+- RecipeService service
++ ResponseEntity<List<Recipe>> find(String,long,String)
++ ResponseEntity<Recipe> create(CreateRecipeDto)
++ ResponseEntity<Recipe> update(int,UpdateRecipeDto)
++ void delete(long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.UserIngredientRowMapper {
++ UserIngredient mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.RecipeMapper {
++ Recipe mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.service.RecipeStepService {
+- RecipeStepDao dao
++ List<RecipeStep> getSteps(long)
++ long create(long,CreateRecipeStepDto)
++ void update(long,long,UpdateRecipeStepDto)
++ void delete(long,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.controllers.UnitController {
+- UnitService service
++ ResponseEntity<List<Unit>> find(String)
+}
+
+
+class com.stanbond.homerecipeorganizer.security.SecurityConfigurator {
++ PasswordEncoder passwordEncoder()
++ AuthenticationManager authenticationManager(AuthenticationConfiguration)
++ AuthenticationProvider authenticationProvider(UserService,PasswordEncoder)
++ SecurityFilterChain filterChain(HttpSecurity,TokenFilter,UserService)
+}
+
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.UserFavoriteDao {
+~ List<UserFavorite> getAllByUserId(long)
+~ void add(long,long)
+~ void remove(long,long)
+}
+
+class com.stanbond.homerecipeorganizer.DAO.entites.Role {
+- long roleId
+- String name
+}
+
+class com.stanbond.homerecipeorganizer.DAO.entites.Ingredient {
+- long id
+- String ingName
++ long getId()
++ void setId(long)
++ String getIngName()
++ void setIngName(String)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.entites.Unit {
+- long unitId
+- String code
+- String unitName
+- String dimension
+- double toBase
+}
+
+interface com.stanbond.homerecipeorganizer.security.user.UserRepository {
+~ Optional<User> findByLogin(String)
+~ Optional<User> findByEmail(String)
+~ Optional<User> findByLoginOrEmail(String,String)
+~ User findById(long)
+~ List<User> findAll()
+~ boolean existsUsersByLogin(String)
+~ boolean existsUsersByEmail(String)
+}
+
+class com.stanbond.homerecipeorganizer.DAO.entites.DishType {
+- long typeId
+- String typeName
+}
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.IngredientMapper {
++ Ingredient mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.controllers.UserFavoriteController {
+- UserFavoriteService service
++ ResponseEntity<List<UserFavorite>> getAll(Principal)
++ void add(long,Principal)
++ void remove(long,Principal)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcRecIngDao {
+- JdbcTemplate template
+- RecipeIngMapper mapper
++ Optional<List<RecipeIng>> getIngByRecId(long)
++ void create(CreateRecipeIngredientDto)
++ void update(long,long,UpdateRecipeIngredientDto)
++ void delete(long,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.recIng.CreateRecipeIngredientDto {
+- long recId
+- long ingId
+- double amount
+- long unitId
++ long ingId()
++ long unitId()
++ double amount()
++ long recId()
+}
+
+
+class com.stanbond.homerecipeorganizer.security.user.UserController {
+- UserService service
++ ResponseEntity<User> getUserByEmail(String)
++ ResponseEntity<List<User>> getAll()
+}
+
+
+class com.stanbond.homerecipeorganizer.security.user.User {
+- long userId
+- String login
+- String firstName
+- String lastName
+- String email
+- String password
+- LocalDate birth
+- LocalDateTime createdAt
+}
+
+class com.stanbond.homerecipeorganizer.service.IngredientService {
+- DaoIngredient daoIngredient
++ List<Ingredient> getAllIngrediets()
++ Ingredient getIngById(long)
++ Ingredient getIngByName(String)
++ Ingredient createIng(String)
++ Ingredient updateIng(int,UpdateIngredientDto)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.entites.UserIngredient {
+- long userId
+- long ingId
+- double amount
+- long unitId
+- Double amountBase
++ long getUserId()
++ void setUserId(long)
++ long getIngId()
++ void setIngId(long)
++ double getAmount()
++ void setAmount(double)
++ long getUnitId()
++ void setUnitId(long)
++ Double getAmountBase()
++ void setAmountBase(Double)
+}
+
+
+class com.stanbond.homerecipeorganizer.security.auth.SignUpRequest {
+- String login
+- String email
+- String password
+- String firstName
+- String lastName
+- LocalDate birth
+}
+
+class com.stanbond.homerecipeorganizer.DAO.entites.UserFavorite {
+- long userId
+- long recId
++ long getUserId()
++ void setUserId(long)
++ long getRecId()
++ void setRecId(long)
+}
+
+
+class com.stanbond.homerecipeorganizer.security.token.JwtCore {
+- String secret
+- int lifeTime
+- SecretKey getSigningKey()
++ String generateToken(Authentication)
++ List<String> getRolesFromJwt(String)
++ String getNameFromJwt(String)
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.userIng.CreateUserIngredientDto {
+- Long ingId
+- double amount
+- Long unitId
++ double amount()
++ Long ingId()
++ Long unitId()
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.ingredient.UpdateIngredientDto {
+- String name
++ String name()
+}
+
+
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.DaoIngredient {
+~ List<Ingredient> getAllIng()
+~ Optional<Ingredient> getIngByid(long)
+~ Optional<Ingredient> getIngByName(String)
+~ Ingredient createIng(String)
+~ Ingredient updateIng(int,UpdateIngredientDto)
+}
+
+class com.stanbond.homerecipeorganizer.controllers.RecIngController {
+- RecipeIngService service
++ ResponseEntity<List<RecipeIng>> getByRecipe(long)
++ void create(long,CreateRecipeIngredientDto)
++ void update(long,long,UpdateRecipeIngredientDto)
++ void delete(long,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.security.user.UserService {
+- RoleRepository roleRepository
+- DaoUserRole userRoleDao
+- UserRepository userRepository
+- PasswordEncoder passwordEncoder
++ User register(User)
++ UserDetails loadUserByUsername(String)
++ User getUserByEmail(String)
++ void setRoleToUser(long,String)
++ List<User> getAllUsers()
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcUserFavoriteDao {
+- JdbcTemplate template
+- UserFavoriteRowMapper mapper
++ List<UserFavorite> getAllByUserId(long)
++ void add(long,long)
++ void remove(long,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.exceptions.SimpleExceptionHandler {
++ ResponseEntity<String> handleDao(DaoException)
++ ResponseEntity<String> handleNotFound(NotFoundException)
+}
+
+class com.stanbond.homerecipeorganizer.security.auth.SignInRequest {
+- String identifier
+- String password
+}
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.RecipeIngMapper {
++ RecipeIng mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.security.user.UserDetailsImpl {
+- long userId
+- String login
+- String password
+- List<GrantedAuthority> authorities
++ Collection<? extends GrantedAuthority> getAuthorities()
++ String getPassword()
++ String getUsername()
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
+}
+
+
+class com.stanbond.homerecipeorganizer.security.exception.GlobalExceptionHandler {
++ ResponseEntity<?> handleIllegalState(IllegalStateException)
++ ResponseEntity<String> handleNotFound(NotFoundException)
+}
+
+class com.stanbond.homerecipeorganizer.controllers.DishTypeController {
+- DishTypeRepository repo
++ ResponseEntity<List<DishType>> getAllType()
+}
+
+
+class com.stanbond.homerecipeorganizer.service.UserFavoriteService {
+- UserFavoriteDao dao
+- UserService userService
+- long requireUserId(String)
++ List<UserFavorite> getAllByEmail(String)
++ void addByEmail(String,long)
++ void removeByEmail(String,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.recipeStep.UpdateRecipeStepDto {
+- Integer stepNumber
+- String stepText
++ Integer stepNumber()
++ String stepText()
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.entites.Recipe {
+- long id
+- String recipeName
+- String picURL
+- long typeId
++ long getId()
++ void setId(long)
++ String getRecipeName()
++ void setRecipeName(String)
++ String getPicURL()
++ void setPicURL(String)
++ long getTypeId()
++ void setTypeId(long)
+}
+
+
+class com.stanbond.homerecipeorganizer.service.RoleService {
+- RoleRepository repo
++ Role getRoleById(long)
+}
+
+
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.DaoRecipeIng {
+~ Optional<List<RecipeIng>> getIngByRecId(long)
+~ void create(CreateRecipeIngredientDto)
+~ void update(long,long,UpdateRecipeIngredientDto)
+~ void delete(long,long)
+}
+
+interface com.stanbond.homerecipeorganizer.repositores.RoleRepository {
+~ List<Role> findAll()
+~ Optional<Role> findById(long)
+~ Optional<Role> findByName(String)
+}
+
+class com.stanbond.homerecipeorganizer.service.UserIngredientService {
+- UserIngredientDao dao
+- UserService userService
+- long requireUserId(String)
++ List<UserIngredient> getAllByEmail(String)
++ void createByEmail(String,CreateUserIngredientDto)
++ void updateByEmail(String,long,UpdateUserIngredientDto)
++ void deleteByEmail(String,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.RecipeStepRowMapper {
++ RecipeStep mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.UserFavoriteRowMapper {
++ UserFavorite mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.service.RecipeService {
+- DaoRecipe dao
+- List<Recipe> getAll()
+- List<Recipe> getByName(String)
+- List<Recipe> getById(long)
+- List<Recipe> getByTypeName(String)
++ List<Recipe> find(String,long,String)
++ Recipe create(CreateRecipeDto)
++ Recipe update(long,UpdateRecipeDto)
++ void deleteRecipe(long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.mappers.UserRoleMapper {
++ UserRole mapRow(ResultSet,int)
+}
+
+class com.stanbond.homerecipeorganizer.DTO.recipe.CreateRecipeDto {
+- String name
+- String picURL
+- Integer typeId
++ String name()
++ String picURL()
++ Integer typeId()
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcIngredientDao {
+- JdbcTemplate template
+- IngredientMapper mapper
++ List<Ingredient> getAllIng()
++ Optional<Ingredient> getIngByid(long)
++ Optional<Ingredient> getIngByName(String)
++ Ingredient createIng(String)
++ Ingredient updateIng(int,UpdateIngredientDto)
+}
+
+
+class com.stanbond.homerecipeorganizer.controllers.RecipeStepController {
+- RecipeStepService service
++ ResponseEntity<List<RecipeStep>> getAll(long)
++ ResponseEntity<Long> create(long,CreateRecipeStepDto)
++ void update(long,long,UpdateRecipeStepDto)
++ void delete(long,long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.entites.UserRole {
+- long userId
+- long roleId
++ long getUserId()
++ void setUserId(long)
++ long getRoleId()
++ void setRoleId(long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcRecipeStepDao {
+- JdbcTemplate template
+- RecipeStepRowMapper mapper
++ List<RecipeStep> getByRecipeId(long)
++ Optional<RecipeStep> getOne(long,long)
++ long create(long,CreateRecipeStepDto)
++ void update(long,long,UpdateRecipeStepDto)
++ void delete(long,long)
+}
+
+
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.RecipeStepDao {
+~ List<RecipeStep> getByRecipeId(long)
+~ Optional<RecipeStep> getOne(long,long)
+~ long create(long,CreateRecipeStepDto)
+~ void update(long,long,UpdateRecipeStepDto)
+~ void delete(long,long)
+}
+
+class com.stanbond.homerecipeorganizer.DAO.entites.RecipeIng {
+- long recId
+- long ingId
+- double amount
+- long unitId
+- double amountBase
++ long getRecId()
++ void setRecId(long)
++ long getIngId()
++ void setIngId(long)
++ double getAmount()
++ void setAmount(double)
++ long getUnitId()
++ void setUnitId(long)
++ double getAmountBase()
++ void setAmountBase(double)
+}
+
+
+class com.stanbond.homerecipeorganizer.DTO.recipe.UpdateRecipeDto {
+- String name
+- String picURL
+- Integer typeId
++ String picURL()
++ Integer typeId()
++ String name()
+}
+
+
+class com.stanbond.homerecipeorganizer.service.RecipeIngService {
+- DaoRecipeIng dao
++ List<RecipeIng> getIngByRecipeId(long)
++ void create(CreateRecipeIngredientDto)
++ void update(long,long,UpdateRecipeIngredientDto)
++ void delete(long,long)
+}
+
+
+interface com.stanbond.homerecipeorganizer.DAO.interfaces.DaoUserRole {
+~ List<String> findRoleNamesByUserId(long)
+~ void createNewUserRole(long,long)
+~ void updateNewUserRole(long)
+~ void deleteUserRole(long)
+}
+
+interface com.stanbond.homerecipeorganizer.repositores.DishTypeRepository {
+~ List<DishType> findAll()
+}
+
+class com.stanbond.homerecipeorganizer.controllers.RoleController {
+- RoleRepository repo
++ ResponseEntity<List<Role>> getAllRole()
+}
+
+
+class com.stanbond.homerecipeorganizer.security.user.UserIngredientController {
+- UserIngredientService service
++ ResponseEntity<List<UserIngredient>> getAll(Principal)
++ void create(CreateUserIngredientDto,Principal)
++ void update(long,UpdateUserIngredientDto,Principal)
++ void delete(long,Principal)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.entites.RecipeStep {
+- long stepId
+- long recId
+- int stepNumber
+- String stepText
++ long getStepId()
++ void setStepId(long)
++ long getRecId()
++ void setRecId(long)
++ int getStepNumber()
++ void setStepNumber(int)
++ String getStepText()
++ void setStepText(String)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcRecipeDao {
+- JdbcTemplate template
+- RecipeMapper mapper
++ Optional<List<Recipe>> getAll()
++ Optional<Recipe> getByName(String)
++ Optional<Recipe> getById(long)
++ Optional<List<Recipe>> getByTypeName(String)
++ Recipe create(CreateRecipeDto)
++ Recipe update(long,UpdateRecipeDto)
++ void delete(long)
+}
+
+
+class com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcUserRoleDao {
+- JdbcTemplate tem
+- UserRoleMapper mapper
++ List<String> findRoleNamesByUserId(long)
++ void createNewUserRole(long,long)
++ void updateNewUserRole(long)
++ void deleteUserRole(long)
+}
+
+
+
+
+com.stanbond.homerecipeorganizer.exceptions.RuntimeException <|-- com.stanbond.homerecipeorganizer.exceptions.DaoException
+com.stanbond.homerecipeorganizer.DAO.interfaces.UserIngredientDao <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcUserIngredientDao
+org.springframework.data.jpa.repository.JpaRepository <|-- com.stanbond.homerecipeorganizer.repositores.UnitRepository
+com.stanbond.homerecipeorganizer.exceptions.RuntimeException <|-- com.stanbond.homerecipeorganizer.exceptions.NotFoundException
+org.springframework.web.filter.OncePerRequestFilter <|-- com.stanbond.homerecipeorganizer.security.token.TokenFilter
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.UserIngredientRowMapper
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.RecipeMapper
+org.springframework.data.jpa.repository.JpaRepository <|-- com.stanbond.homerecipeorganizer.security.user.UserRepository
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.IngredientMapper
+com.stanbond.homerecipeorganizer.DAO.interfaces.DaoRecipeIng <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcRecIngDao
+org.springframework.security.core.userdetails.UserDetailsService <|.. com.stanbond.homerecipeorganizer.security.user.UserService
+com.stanbond.homerecipeorganizer.DAO.interfaces.UserFavoriteDao <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcUserFavoriteDao
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.RecipeIngMapper
+org.springframework.security.core.userdetails.UserDetails <|.. com.stanbond.homerecipeorganizer.security.user.UserDetailsImpl
+org.springframework.data.jpa.repository.JpaRepository <|-- com.stanbond.homerecipeorganizer.repositores.RoleRepository
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.RecipeStepRowMapper
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.UserFavoriteRowMapper
+org.springframework.jdbc.core.RowMapper <|.. com.stanbond.homerecipeorganizer.DAO.mappers.UserRoleMapper
+com.stanbond.homerecipeorganizer.DAO.interfaces.DaoIngredient <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcIngredientDao
+com.stanbond.homerecipeorganizer.DAO.interfaces.RecipeStepDao <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcRecipeStepDao
+org.springframework.data.jpa.repository.JpaRepository <|-- com.stanbond.homerecipeorganizer.repositores.DishTypeRepository
+com.stanbond.homerecipeorganizer.DAO.interfaces.DaoRecipe <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcRecipeDao
+com.stanbond.homerecipeorganizer.DAO.interfaces.DaoUserRole <|.. com.stanbond.homerecipeorganizer.DAO.jdbc.JdbcUserRoleDao
+@enduml

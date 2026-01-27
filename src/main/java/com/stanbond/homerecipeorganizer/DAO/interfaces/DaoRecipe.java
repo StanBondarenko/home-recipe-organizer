@@ -8,9 +8,10 @@ import java.util.Optional;
 import java.util.List;
 public interface DaoRecipe {
     Optional<List<Recipe>> getAll();
-    Optional<Recipe> getByName(String name);
+    Optional<List<Recipe>> getByName(String name);
     Optional<Recipe> getById(long id);
     Optional<List<Recipe>> getByTypeName(String typeName);
+    Optional<List<Recipe>> getByTypeNameAndName(String typeName, String name);
     Recipe create(CreateRecipeDto dto);
     Recipe update(long id,UpdateRecipeDto dto);
     void delete(long id);

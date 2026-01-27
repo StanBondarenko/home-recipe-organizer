@@ -43,14 +43,22 @@ public class SecurityConfigurator {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, TokenFilter tokenFilter, UserService userService) throws Exception {
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            TokenFilter tokenFilter,
+            UserService userService
+    ) throws Exception {
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .cors(cors -> cors.configurationSource(request ->
+                        new CorsConfiguration().applyPermitDefaultValues()))
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/secured/user").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -59,4 +67,5 @@ public class SecurityConfigurator {
 
         return http.build();
     }
+
 }
