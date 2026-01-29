@@ -10,7 +10,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/my/favorites")
+@RequestMapping("/my/favorites")
 public class UserFavoriteController {
 
     private final UserFavoriteService service;

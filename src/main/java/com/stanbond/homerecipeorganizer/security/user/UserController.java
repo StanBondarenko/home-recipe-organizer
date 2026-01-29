@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,6 +16,10 @@ public class UserController {
     private final UserService service;
     public UserController (UserService service){
         this.service = service;
+    }
+    @GetMapping
+    public ResponseEntity<User> getUserByLogin(Principal principal){
+        return ResponseEntity.ok(service.getUserByLogin(principal));
     }
     @GetMapping("/user")
     @PreAuthorize("hasRole('GOD')")
