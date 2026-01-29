@@ -1,0 +1,93 @@
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: transparent;
+}
+
+
+.logo {
+  height: 200px;                 
+  width: 100%;
+  background-color: #ffffff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoImg {
+  height: 160px;
+  max-width: 92%;
+  object-fit: contain;
+}
+
+
+.nav {
+  height: 60px;                  
+  width: calc(100% - 120px);
+  margin-top: -20px;             
+
+  background-color: #61a581;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 32px;
+  border-radius: 6px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.navLeft,
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+
+.navLink {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+
+  color: #b7d8c4;
+  padding-bottom: 4px;
+
+  transition: color 0.25s ease, border-bottom 0.25s ease;
+}
+
+.navLink:hover {
+  color: #324b3d;
+}
+
+.active {
+  color: #328a56;
+  border-bottom: 2px solid #2ecc71;
+}
+
+.login {
+  color: #e3f8ee;
+}
+
+.login:hover {
+  color: #2ecc71;
+}
+.login {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}

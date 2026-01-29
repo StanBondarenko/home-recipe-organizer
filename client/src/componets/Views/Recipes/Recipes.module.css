@@ -1,0 +1,73 @@
+
+.page {
+  padding: 20px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(76, 175, 80, 0.12); 
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  flex-wrap: wrap;
+}
+
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.input,
+.select {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.input:focus,
+.select:focus {
+  border-color: rgba(76, 175, 80, 0.8);
+}
+
+
+.button {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+.recipes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+
+.cardWrap {
+  flex: 0 0 260px; 
+}
+
+
+.empty {
+  margin-top: 14px;
+  font-size: 14px;
+  opacity: 0.75;
+}

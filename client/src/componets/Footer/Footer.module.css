@@ -1,0 +1,11 @@
+.footer{
+
+    background-color: white;
+    grid-area: foot;
+    position: fixed;
+    bottom: 0;
+    left: 8px;
+    right: 10%;
+    width: 100%;
+    height: 20px; 
+}

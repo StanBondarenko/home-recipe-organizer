@@ -1,0 +1,22 @@
+.about{ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;        
+  align-items: center;            
+  text-align: center;
+  padding: 20px;
+}
+
+.content {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(76, 175, 80, 0.12); 
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  max-width: 700px;              
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.about h1 {
+  margin-bottom: 24px;
+}
