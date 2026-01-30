@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/my/favorites")
+@PreAuthorize("isAuthenticated()")
 public class UserFavoriteController {
 
     private final UserFavoriteService service;
@@ -20,22 +21,23 @@ public class UserFavoriteController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('GOD')")
     public ResponseEntity<List<UserFavorite>> getAll(Principal principal) {
-        return ResponseEntity.ok(service.getAllByEmail(principal.getName()));
+        return ResponseEntity.ok(service.getAll(principal));
+    }
+    @GetMapping("/{recId}")
+    public ResponseEntity<List<UserFavorite>> getByRecId(Principal principal,@PathVariable long recId){
+        return ResponseEntity.ok(service.getByUserIdAndRecId(principal,recId));
     }
 
     @PostMapping("/{recId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('GOD')")
     @ResponseStatus(HttpStatus.CREATED)
     public void add(@PathVariable long recId, Principal principal) {
-        service.addByEmail(principal.getName(), recId);
+        service.addByEmail(principal, recId);
     }
 
     @DeleteMapping("/{recId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('GOD')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable long recId, Principal principal) {
-        service.removeByEmail(principal.getName(), recId);
+        service.removeByEmail(principal, recId);
     }
 }

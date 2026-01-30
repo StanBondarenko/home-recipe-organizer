@@ -10,6 +10,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcUserFavoriteDao implements UserFavoriteDao {
@@ -33,6 +34,22 @@ public class JdbcUserFavoriteDao implements UserFavoriteDao {
             return template.query(sql, mapper, userId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("No connection to base", e);
+        }
+    }
+
+    @Override
+    public Optional<List<UserFavorite>> getByRecId(long userId,long recId) {
+        String sql = """
+                SELECT user_id, rec_id
+                FROM user_favorite
+                WHERE user_id = ? AND rec_id = ?""";
+        try{
+            List<UserFavorite> result = template.query(sql,mapper,userId, recId);
+            return Optional.of(result);
+        }catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("No connection to base", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data problems", e);
         }
     }
 

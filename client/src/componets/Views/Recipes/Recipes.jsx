@@ -24,6 +24,11 @@ export default function Recipe() {
   function handeleChangeName(e) {
     setName(e.target.value);
   }
+    useEffect(()=>{
+      RecipeService.find({ type: selectedType, name: name.trim() })
+      .then((res) => setRecipes(res.data))
+      .catch((err) => console.log(err));
+    },[])
 
   function handleFindClick() {
     RecipeService.find({ type: selectedType, name: name.trim() })
@@ -74,7 +79,7 @@ export default function Recipe() {
       <div className={styles.recipes}>
         {recipes.length > 0 ? (
           recipes.map((rec) => (
-            <Link to={"/recipe/"+rec.id}>
+            <Link key={rec.id} to={"/recipe/"+rec.id}>
             <div className={styles.cardWrap} key={rec.recId}>
               <RecipeCard recipe={rec} />
             </div>

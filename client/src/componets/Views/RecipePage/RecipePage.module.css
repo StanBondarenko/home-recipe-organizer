@@ -1,46 +1,52 @@
-
 .recipe {
-  background: rgba(76, 175, 80, 0.12);
+  background: rgba(76, 175, 80, 0.10);
   border-radius: 20px;
-  padding: 24px;
+  padding: 28px;
   max-width: 1000px;
   margin: 0 auto;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative; /* ✅ чтобы favoriteIcon позиционировался относительно recipe */
 }
-
 
 .title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 22px;
   text-align: center;
   color: #0b1f14;
+  letter-spacing: 0.2px;
 }
-
 
 .topRow {
   display: flex;
   gap: 24px;
-  align-items: flex-start;
-  margin-bottom: 28px;
+  align-items: stretch;
+  margin-bottom: 26px;
 }
 
 .image {
-  width: 360px;
-  height: 240px;
+  width: 380px;
+  height: 260px;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: 16px;
   flex-shrink: 0;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
 }
-
 
 .ingredients {
   flex: 1;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .ingredientsTitle {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 12px;
+  color: #0b1f14;
 }
 
 .ingredients ul {
@@ -49,25 +55,80 @@
   margin: 0;
 }
 
+/* ⚠️ важно: внутри ul нельзя p — лучше будет li. Но оставим мягкую поддержку */
 .ingredients li {
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   font-size: 15px;
+  color: rgba(0, 0, 0, 0.85);
 }
 
+.ingredients li:last-child {
+  border-bottom: none;
+}
 
 .steps {
-  margin-top: 20px;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.70);
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .stepsTitle {
   font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #0b1f14;
 }
 
 .step {
   margin-bottom: 10px;
-  line-height: 1.5;
+  line-height: 1.55;
   font-size: 15px;
+  color: rgba(0, 0, 0, 0.88);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ingredients p,
+.steps p {
+  margin: 0;
+  padding: 8px 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+.favoriteIcon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  user-select: none;
+}
+
+.favoriteIcon:hover {
+  transform: scale(1.12);
+  opacity: 0.85;
+}
+
+@media (max-width: 860px) {
+  .topRow {
+    flex-direction: column;
+  }
+
+  .image {
+    width: 100%;
+    height: 240px;
+  }
+
+  .favoriteIcon {
+    top: 14px;
+    right: 14px;
+  }
 }

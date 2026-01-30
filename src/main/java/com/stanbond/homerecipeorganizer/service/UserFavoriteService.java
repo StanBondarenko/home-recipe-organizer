@@ -1,10 +1,12 @@
 package com.stanbond.homerecipeorganizer.service;
 import com.stanbond.homerecipeorganizer.DAO.entites.UserFavorite;
 import com.stanbond.homerecipeorganizer.DAO.interfaces.UserFavoriteDao;
+import com.stanbond.homerecipeorganizer.exceptions.NotFoundException;
 import com.stanbond.homerecipeorganizer.security.user.User;
 import com.stanbond.homerecipeorganizer.security.user.UserService;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -17,21 +19,25 @@ public class UserFavoriteService {
         this.dao = dao;
         this.userService = userService;
     }
+    public List<UserFavorite> getByUserIdAndRecId(Principal principal, long recID){
+        User user = userService.getUserByLogin(principal);
+        return dao.getByRecId(user.getUserId(),recID).orElseThrow(()-> new NotFoundException("No recipe with this id"));
+    }
 
-    private long requireUserId(String email) {
-        User user = userService.getUserByEmail(email);
+    private long requireUserId(Principal principal) {
+        User user = userService.getUserByLogin(principal);
         return user.getUserId();
     }
 
-    public List<UserFavorite> getAllByEmail(String email) {
-        return dao.getAllByUserId(requireUserId(email));
+    public List<UserFavorite> getAll(Principal principal) {
+        return dao.getAllByUserId(requireUserId(principal));
     }
 
-    public void addByEmail(String email, long recId) {
-        dao.add(requireUserId(email), recId);
+    public void addByEmail(Principal principal, long recId) {
+        dao.add(requireUserId(principal), recId);
     }
 
-    public void removeByEmail(String email, long recId) {
-        dao.remove(requireUserId(email), recId);
+    public void removeByEmail(Principal principal, long recId) {
+        dao.remove(requireUserId(principal), recId);
     }
 }
