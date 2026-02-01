@@ -24,5 +24,8 @@ public class UnitService {
     public Unit getByCode(String code){
         return repo.findByCode(code).orElseThrow(()-> new NotFoundException("No unit with this code"));
     }
+    public Unit findById(long id){
+        return repo.findById(id).orElseThrow(()->new NotFoundException("No unit with this id"));
+    }
 
 }

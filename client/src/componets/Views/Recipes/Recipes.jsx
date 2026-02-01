@@ -80,8 +80,8 @@ export default function Recipe() {
         {recipes.length > 0 ? (
           recipes.map((rec) => (
             <Link key={rec.id} to={"/recipe/"+rec.id}>
-            <div className={styles.cardWrap} key={rec.recId}>
-              <RecipeCard recipe={rec} />
+            <div className={styles.cardWrap} key={rec.id}>
+              <RecipeCard id={rec.id} />
             </div>
             </Link>
           ))

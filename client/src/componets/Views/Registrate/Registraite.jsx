@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import UserService from "../../../services/UserService";
 import styles from './Registrate.module.css';
 export default function Registration(){
@@ -12,7 +11,6 @@ export default function Registration(){
     const [passCheck2, setPassCheck2] = useState("");
     const [birthDate, setBirthDate] = useState("");
     const [errorMess, setErrorMess] = useState("");
-    const navigate = useNavigate();
 
     function createUserData(){
         if(passCheck1 !== passCheck2){

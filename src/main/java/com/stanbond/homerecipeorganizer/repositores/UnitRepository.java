@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface UnitRepository extends JpaRepository<Unit,Long> {
     List<Unit> findAll();
     Optional<Unit> findByCode(String code);
+    Optional<Unit> findById(long id);
 }

@@ -42,16 +42,21 @@ export default function Header() {
           </NavLink>
 
           <NavLink className={linkClass} to="/recipe">
-            RECIPES
+             All RECIPES
           </NavLink>
 
           {isAuth && user?.login && (
-            <NavLink className={styles.navLink} to="/room">
+            <>
+            <NavLink className={linkClass} to="/user/find">
+              Find recipes by My Ingredients
+            </ NavLink> 
+            <NavLink className={linkClass} to="/room">
               {`${user.login}'s room`}
-            </NavLink>
+            </NavLink> 
+            </>
           )}
         </div>
-
+          
         <div className={styles.navRight}>
           {isAuth ? (
             <button

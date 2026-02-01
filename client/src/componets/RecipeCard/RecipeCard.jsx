@@ -2,29 +2,36 @@ import styles from "./RecipeCard.module.css";
 import { AuthContext } from "../context/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import UserFavoriteService from "../../services/UserFavoriteService";
-export default function RecipeCard({ recipe }) {
-  const imgSrc = "http://localhost:8080/api" + recipe.picURL;
+import RecipeService from "../../services/RecipeService";
+
+
+export default function RecipeCard({ id }) {
   const { isAuth, token } = useContext(AuthContext); 
   const[ favorite, setFavorite] = useState([]);
   const [isInFavorite, setIsInFavorite] = useState(false);
-  const recId = recipe?.id;
+  const [recipe, setRecipe] = useState([]);
+    useEffect(()=>{
+        RecipeService.find({ id })
+        .then((res) => setRecipe(res.data[0]))
+        .catch((err) => console.log(err));
+      },[id])
 
     useEffect(() => {
-        if (!isAuth || !recId) return;
+        if (!isAuth || !id) return;
         UserFavoriteService.getAll(token)
           .then((res) => {
             setFavorite(res.data);
-            const exists = res.data.some(f => f.recId === recId);
+            const exists = res.data.some(f => f.recId === id);
             setIsInFavorite(exists);
           });
-    }, [isAuth, token, recId ]);
+    }, [isAuth, token, id ]);
     
  return (
   <article className={styles.card}>
     <div className={styles.imageWrapper}>
       <img
         className={styles.image}
-        src={imgSrc}
+        src={"http://localhost:8080/api" + recipe.picURL}
         alt={recipe.recipeName}
       />
         {isAuth && isInFavorite ? (

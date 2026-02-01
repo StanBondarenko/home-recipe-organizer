@@ -2,6 +2,7 @@ package com.stanbond.homerecipeorganizer.DAO.jdbc;
 
 
 import com.stanbond.homerecipeorganizer.DAO.entites.UserIngredient;
+import com.stanbond.homerecipeorganizer.DAO.entites.UserIngredientViewDto;
 import com.stanbond.homerecipeorganizer.DAO.interfaces.UserIngredientDao;
 import com.stanbond.homerecipeorganizer.DAO.mappers.UserIngredientRowMapper;
 import com.stanbond.homerecipeorganizer.DTO.userIng.CreateUserIngredientDto;
@@ -43,6 +44,28 @@ public class JdbcUserIngredientDao implements UserIngredientDao {
     }
 
     @Override
+    public List<UserIngredientViewDto> getMyIngredients(long userId) {
+        String sql = """
+            SELECT i.ing_name, ui.amount, u.code
+            FROM user_ingredient ui
+            JOIN ingredient i USING(ing_id)
+            JOIN unit u USING(unit_id)
+            WHERE ui.user_id = ?
+            ORDER BY i.ing_name;
+        """;
+
+        return template.query(
+                sql,
+                (rs, rowNum) -> new UserIngredientViewDto(
+                        rs.getString("ing_name"),
+                        rs.getBigDecimal("amount"),
+                        rs.getString("code")
+                ),
+                userId
+        );
+    }
+
+    @Override
     public Optional<UserIngredient> getOne(long userId, long ingId) {
         String sql = """
                 SELECT user_id, ing_id, amount, unit_id, amount_base
@@ -56,6 +79,7 @@ public class JdbcUserIngredientDao implements UserIngredientDao {
             throw new DaoException("No connection to base", e);
         }
     }
+
 
     @Override
     public void create(long userId, CreateUserIngredientDto dto) {
