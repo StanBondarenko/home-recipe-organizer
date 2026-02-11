@@ -5,5 +5,10 @@ export default{
         return axios.get("/api/unit",{
             params: {code}
         });
+    },
+    getToBaseById(id){
+        return axios.get(`/api/unit/base/${id}`);
     }
+
+    
 }

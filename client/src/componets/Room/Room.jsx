@@ -5,8 +5,6 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import UserFavoriteService from "../../services/UserFavoriteService";
 import UserIngService from "../../services/UserIngService";
-import IngredientService from "../../services/IngredientService";  
-import UnitService from "../../services/UnitService";  
 import RecipeCard from "../RecipeCard/RecipeCard";
 
 
@@ -15,17 +13,14 @@ export default function Room(){
     const [favorite, setFavorite] = useState([]);
     const [errorMes, setErrorMes] = useState("");
     const [userIng, setUserIng] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [ingName, setIngName] = useState("");
     const navigate = useNavigate();
 
 
     useEffect(()=>{
-        setLoading(false);
         UserFavoriteService.getAll(token)
         .then((res)=>{
             setFavorite(res.data)
-            setLoading(true);
         })
         .catch((err)=>{
             const msg =
@@ -51,7 +46,7 @@ export default function Room(){
     },[token])
     
     return(
-        <>
+        <div className="container">
         <section className={styles.favRecipe}>
             <h1>Favorite recipes:</h1>
 
@@ -92,6 +87,6 @@ export default function Room(){
             </NavLink>
          </section>
 
-        </>
+        </div>
     )
 }

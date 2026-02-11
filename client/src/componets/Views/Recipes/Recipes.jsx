@@ -37,7 +37,7 @@ export default function Recipe() {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} container`}>
       <div className={styles.filters}>
         <div className={styles.field}>
           <label className={styles.label} htmlFor="searchInput">

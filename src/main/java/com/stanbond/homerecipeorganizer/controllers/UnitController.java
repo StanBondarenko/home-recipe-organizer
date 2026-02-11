@@ -3,10 +3,7 @@ package com.stanbond.homerecipeorganizer.controllers;
 import com.stanbond.homerecipeorganizer.DAO.entites.Unit;
 import com.stanbond.homerecipeorganizer.service.UnitService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +19,9 @@ public class UnitController {
         }else {
             return ResponseEntity.ok((List.of(service.getByCode(code))));
         }
+    }
+    @GetMapping("/base/{id}")
+    public ResponseEntity<Double> getToBaseById(@PathVariable Long id){
+        return ResponseEntity.ok(service.getToBaseById(id));
     }
 }

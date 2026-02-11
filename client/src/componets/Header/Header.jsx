@@ -29,34 +29,31 @@ export default function Header() {
       .catch(() => setUser(null));
   }, [isAuth, token]);
 
-  return (
-    <header className={styles.header}>
-      <div className={styles.logo}>
-        <img className={styles.logoImg} src="/res/logo.png" alt="banner" />
-      </div>
+ return (
+  <header className={styles.header}>
+    <div className={styles.topFade} />
 
+    <div className={styles.container}>
       <nav className={styles.nav}>
+        <div className={styles.brand}>
+          <img className={styles.logo} alt="logo" src="../../res/logo.png"/>
+        </div>
         <div className={styles.navLeft}>
           <NavLink className={linkClass} to="/about">
             ABOUT US
           </NavLink>
 
           <NavLink className={linkClass} to="/recipe">
-             All RECIPES
+            ALL RECIPES
           </NavLink>
 
           {isAuth && user?.login && (
-            <>
-            <NavLink className={linkClass} to="/user/find">
-              Find recipes by My Ingredients
-            </ NavLink> 
             <NavLink className={linkClass} to="/room">
-              {`${user.login}'s room`}
-            </NavLink> 
-            </>
+              {`${user.login}'S ROOM`}
+            </NavLink>
           )}
         </div>
-          
+
         <div className={styles.navRight}>
           {isAuth ? (
             <button
@@ -73,6 +70,7 @@ export default function Header() {
           )}
         </div>
       </nav>
-    </header>
-  );
+    </div>
+  </header>
+);
 }

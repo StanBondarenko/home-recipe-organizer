@@ -1,17 +1,26 @@
 package com.stanbond.homerecipeorganizer.DAO.entites;
 
 public class UserIngredientViewDto {
-
+    private long ingId;
     private String ingName;
     private java.math.BigDecimal amount;
     private String unitCode;
 
     public UserIngredientViewDto() {}
 
-    public UserIngredientViewDto(String ingName, java.math.BigDecimal amount, String unitCode) {
+    public UserIngredientViewDto(long ingId, String ingName, java.math.BigDecimal amount, String unitCode) {
+        this.ingId = ingId;
         this.ingName = ingName;
         this.amount = amount;
         this.unitCode = unitCode;
+    }
+
+    public long getIngId() {
+        return ingId;
+    }
+
+    public void setIngId(long ingId) {
+        this.ingId = ingId;
     }
 
     public String getIngName() {

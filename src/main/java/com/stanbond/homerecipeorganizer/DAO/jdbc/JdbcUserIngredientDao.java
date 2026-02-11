@@ -45,18 +45,24 @@ public class JdbcUserIngredientDao implements UserIngredientDao {
 
     @Override
     public List<UserIngredientViewDto> getMyIngredients(long userId) {
+
         String sql = """
-            SELECT i.ing_name, ui.amount, u.code
-            FROM user_ingredient ui
-            JOIN ingredient i USING(ing_id)
-            JOIN unit u USING(unit_id)
-            WHERE ui.user_id = ?
-            ORDER BY i.ing_name;
-        """;
+        SELECT
+            ui.ing_id,
+            i.ing_name,
+            ui.amount,
+            u.code
+        FROM user_ingredient ui
+        JOIN ingredient i USING (ing_id)
+        JOIN unit u USING (unit_id)
+        WHERE ui.user_id = ?
+        ORDER BY i.ing_name;
+    """;
 
         return template.query(
                 sql,
                 (rs, rowNum) -> new UserIngredientViewDto(
+                        rs.getLong("ing_id"),
                         rs.getString("ing_name"),
                         rs.getBigDecimal("amount"),
                         rs.getString("code")

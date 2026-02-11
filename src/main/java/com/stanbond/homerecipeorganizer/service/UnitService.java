@@ -27,5 +27,9 @@ public class UnitService {
     public Unit findById(long id){
         return repo.findById(id).orElseThrow(()->new NotFoundException("No unit with this id"));
     }
+    public double getToBaseById(long id){
+        Unit unit = repo.findById(id).orElseThrow(()-> new NotFoundException("No unit with this id"));
+        return unit.getToBase();
+    }
 
 }
