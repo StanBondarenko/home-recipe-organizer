@@ -107,7 +107,7 @@ export default function Registration(){
       id="eMail"
       type="text"
       value={email}
-      placeholder="Enter your email"
+      placeholder="Ente your email"
       onChange={(e) => setEmail(e.target.value)}
       className={styles.input}
     />
